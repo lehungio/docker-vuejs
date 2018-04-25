@@ -1,8 +1,11 @@
 #!/bin/bash
 
+MAINTAINER="me@lehungio.com"
+
 readonly NAME="liho"
-readonly REPO_NAME="${0}"
-readonly REPO="https://github.com/lehungio/$NAME"
+readonly REPO_NAME="docker-vuejs"
+readonly REPO="https://github.com/lehungio/$REPO_NAME"
+readonly FULL_PATH="$( cd "$( dirname "$0" )" && pwd )"
 readonly LIHO_PATH="/code"
 readonly PUBLIC_PATH="/code/public_html"
 readonly LOCALHOST="127.0.0.1"
@@ -73,6 +76,37 @@ dockerssh() {
 	esac
 }
 
+# run vuejs
+run_vuejs() {
+	case $1 in
+	  init)
+		  # TODO init source code
+			# Installation
+			# https://vuejs.org/v2/guide/installation.html
+			cd stable/vuejs
+			npm install --global vue-cli
+			vue init webpack
+		;;
+		up)
+		  cd stable/vuejs
+			npm install
+			npm run dev
+		;;
+		update)
+		  # TODO update source code
+			# stable https://github.com/vuejs/vue/releases
+      npm i -g npm
+		;;
+		info)
+		  # TODO show info for vuejs
+		;;
+		help|*)
+			echo "vuejs usage:"
+	    echo "${0} vuejs [help|init|up|update]"
+		;;
+	esac
+}
+
 case $1 in
 	init) init ${2:-v2};;
 	build) build ;;
@@ -82,5 +116,6 @@ case $1 in
 	status|ps) status ;;
 	logs) logs ${2:-all} ;;
 	ssh) dockerssh ${2:-php} ;;
+	vuejs) run_vuejs ${2:-help} ${3} ${4} ${5} ;;
 	*) helps ;;
 esac

@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
 
-MAINTAINER lecaoquochung@gmail.com
+MAINTAINER me@lehungio.com
 
 #  run sudo in docker ubuntu 16.04
 # https://github.com/tianon/docker-brew-ubuntu-core/issues/48#issuecomment-215522746

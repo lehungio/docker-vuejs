@@ -3,7 +3,7 @@ version: '3.3'
 services:
 
   vuejs:
-    image: lehungio/docker-vuej:latest
+    image: lehungio/vuejs:latest
     volumes:
       - ./:/code
 
