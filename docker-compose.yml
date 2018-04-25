@@ -1,0 +1,28 @@
+version: '3.3'
+
+services:
+
+  vuejs:
+    image: lehungio/docker-vuej:latest
+    volumes:
+      - ./:/code
+
+  vuejs-test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /code/stable/vuejs
+    volumes:
+      - ".:/code"
+    ports:
+      - "8080:8080"
+    env_file:
+    - .env
+  
+  web:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/code
+      - ./site.conf:/etc/nginx/conf.d/site.conf
