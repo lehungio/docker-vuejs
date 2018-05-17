@@ -2,16 +2,16 @@ version: '3.3'
 
 services:
 
-  vuejs:
-    image: lehungio/vuejs:latest
-    volumes:
-      - ./:/code
+  # vuejs:
+  #   image: lehungio/vuejs:latest
+  #   volumes:
+  #     - ./:/code
 
-  vuejs-test:
+  vuejs-stable:
     build:
       context: .
       dockerfile: Dockerfile
-    working_dir: /code/stable/vuejs
+    working_dir: /code/stable/vuejs/sample
     volumes:
       - ".:/code"
     ports:

@@ -10,6 +10,8 @@ readonly LIHO_PATH="/code"
 readonly PUBLIC_PATH="/code/public_html"
 readonly LOCALHOST="127.0.0.1"
 
+readonly PM2_LOG_VUEJS="pm2 logs"
+
 helps() {
 	case $1 in
 		all|*) allhelps ;;
@@ -63,16 +65,25 @@ status() {
 }
 
 # Docker compose logs
-logs() {
+run_logs() {
 	case $1 in
-		liho|*)  docker-compose logs ;;
+	  pm2)
+      docker-compose exec vuejs-stable /bin/bash -c "$PM2_LOG_VUEJS"
+    ;;
+	  web|nginx)
+      docker-compose logs web
+    ;;
+		liho|*)  
+		  docker-compose logs 
+		;;
 	esac
 }
 
 # ssh cli
-dockerssh() {
+run_ssh() {
 	case $1 in
-		liho|*) docker-compose exec ${NAME} /bin/bash ;;
+		vuejs-stable) docker-compose exec vuejs-stable /bin/bash ;;
+		vuejs|*) docker-compose exec vuejs /bin/bash ;;
 	esac
 }
 
@@ -85,7 +96,7 @@ run_vuejs() {
 			# https://vuejs.org/v2/guide/installation.html
 			cd stable/vuejs
 			npm install --global vue-cli
-			vue init webpack
+			# vue init webpack sample
 		;;
 		up)
 		  cd stable/vuejs
@@ -114,8 +125,8 @@ case $1 in
 	stop|down) stop ;;
 	restart|reboot) restart ;;
 	status|ps) status ;;
-	logs) logs ${2:-all} ;;
-	ssh) dockerssh ${2:-php} ;;
+	logs) run_logs ${2:-all} ;;
+	ssh) run_ssh ${2:-php} ;;
 	vuejs) run_vuejs ${2:-help} ${3} ${4} ${5} ;;
 	*) helps ;;
 esac
